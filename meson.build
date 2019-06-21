@@ -95,7 +95,7 @@ test_c_args = [
   '-Wunused',
   '-fno-strict-aliasing',
 ]
-if get_option('buildtype') != 'plain'
+if host_machine.system() != 'windows' and get_option('buildtype') != 'plain'
   test_c_args += '-fstack-protector-strong'
 endif
 if get_option('enable_profiling')
@@ -168,7 +168,9 @@ endif
 gnome = import('gnome')
 
 subdir('src')
-subdir('tests')
+if host_machine.system() != 'windows'
+  subdir('tests')
+endif
 
 if get_option('enable_gtk_doc')
   subdir('doc')
